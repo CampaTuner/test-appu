@@ -33,8 +33,12 @@ const ForgetPasswordScreen = ({ navigation }) => {
         if (!email) {
             return dispatch(setMessage({ text: 'Please enter your email', type: 'error' }));
         }
-        await sendOtp(email);
-        navigate.replace('Otp', { email, type: 'forgetPassword' });
+        let response = await sendOtp(email);
+        if (response) {
+            navigate.replace('Otp', { email, type: 'forgetPassword' });
+        }
+        return
+
     }
 
     return (

@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useFocusEffect } from '@react-navigation/native';
 import { useNotification } from '../../hooks/notification/useNotification';
 import COLORS from '../../constants/colors';
@@ -20,6 +20,7 @@ import Loading from '../../components/Loading';
 import Button from '../../components/Button';
 
 const Notifications = () => {
+  const scrollRef = useRef(null);
   const { getNotifications, deleteNotifications } = useNotification();
   const [refreshing, setRefreshing] = useState(false);
   const { notifications } = useSelector(state => state.notification);
@@ -48,6 +49,14 @@ const Notifications = () => {
     fetchNotifications();
   }, [])
 
+  useFocusEffect(
+    useCallback(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollToOffset({ offset: 0, animated: true });
+      }
+    }, [])
+  );
+
 
   return (
     <View style={styles.container}>
@@ -59,6 +68,7 @@ const Notifications = () => {
       </View>
 
       <FlatList
+        ref={scrollRef}
         data={notifications}
         keyExtractor={(item, index) => item._id || index.toString()}
         renderItem={({ item }) => <RenderItem item={item} />}

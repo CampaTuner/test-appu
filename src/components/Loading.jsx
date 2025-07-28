@@ -6,7 +6,6 @@ const { width, height } = Dimensions.get('window');
 
 const Loading = ({ visible }) => {
     if (!visible) return null;
-    console.count("loadin");
     return (
         <Modal
             visible={visible}

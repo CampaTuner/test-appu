@@ -1,5 +1,5 @@
 import { FlatList, StyleSheet, Text, View, ActivityIndicator, RefreshControl } from 'react-native';
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { useGarbage } from '../../hooks/garbage/useGarbage';
 import RenderItem from './RenderItem';
 import COLORS from '../../constants/colors';
@@ -11,8 +11,10 @@ import FONTS from '../../constants/fonts';
 import { setAllGarbages, setLoading } from '../../redux/slices/garbageSlice';
 import Loading from '../../components/Loading';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useFocusEffect } from '@react-navigation/native';
 
 const ReportsHistory = () => {
+  const scrollRef = useRef(null);
   const dispatch = useDispatch();
   const { garbageHistory } = useGarbage()
 
@@ -71,12 +73,21 @@ const ReportsHistory = () => {
     getHistory()
   }, [])
 
+
+  useFocusEffect(
+    useCallback(() => {
+      if (scrollRef.current) {
+        scrollRef.current.scrollToOffset({ offset: 0, animated: true });
+      }
+    }, [])
+  );
+
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: COLORS.background }}>
       <View style={styles.container}>
         <Header query={query} setQuery={setQuery} />
-
         <FlatList
+          ref={scrollRef} // ✅ Move ref here
           data={allGarbages}
           showsVerticalScrollIndicator={false}
           renderItem={({ item }) => <RenderItem item={item} />}
@@ -104,6 +115,7 @@ const ReportsHistory = () => {
             )
           }
         />
+
       </View>
       {loading && <Loading visible={loading} />}
     </SafeAreaView>

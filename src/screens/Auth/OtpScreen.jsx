@@ -24,7 +24,7 @@ const OtpScreen = ({ navigation, route }) => {
 
     const handleVerify = async () => {
         const token = await validateOtp(otp, email, type)
-        if (type === 'forgetPassword') {
+        if (type === 'forgetPassword' && token) {
             navigation.replace('PasswordChange', { email, token })
         }
     };

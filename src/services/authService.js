@@ -27,8 +27,6 @@ export const resendOtpCitizenService = async (email) => {
 }
 
 export const resetPasswordCitizenService = async (email, newPassword, token) => {
-  console.log(token);
-
   const response = await api.patch('/citizen/auth/reset-password', { email, newPassword }, {
     headers: {
       'Authorization': `Bearer ${token}`

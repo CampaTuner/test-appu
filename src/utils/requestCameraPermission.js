@@ -13,7 +13,6 @@ const requestCameraPermission = async () => {
             return true;
         }
     } catch (err) {
-        console.error('Camera permission error:', err);
         return false;
     }
 };

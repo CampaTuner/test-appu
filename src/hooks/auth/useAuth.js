@@ -54,7 +54,6 @@ export const useAuth = () => {
             await loginCitizenService(credentials);
             return true;
         } catch (error) {
-            console.log(error);
             const msg = error?.response?.data?.message || 'Login failed';
             dispatch(setMessage({ text: msg, type: 'error' }));
             return false;
@@ -108,8 +107,6 @@ export const useAuth = () => {
             dispatch(setMessage({ text: "OTP resent successfully", type: 'success' }));
             return true;
         } catch (error) {
-            console.log(error);
-
             const msg = error?.response?.data?.message || 'Failed to resend OTP';
             dispatch(setMessage({ text: msg, type: 'error' }));
             return false;
@@ -125,8 +122,6 @@ export const useAuth = () => {
             dispatch(setMessage({ text: "Password reset successfully", type: 'success' }));
             return true;
         } catch (error) {
-            console.log(error.response);
-
             const msg = error?.response?.data?.message || 'Failed to reset password';
             dispatch(setMessage({ text: msg, type: 'error' }));
             return false;
@@ -136,13 +131,11 @@ export const useAuth = () => {
     };
     const updateAddress = async (address) => {
         try {
-            console.log(address);
             dispatch(setLoading(true));
             await addAddressCitizenService(address);
             dispatch(setMessage({ text: "Address updated successfully", type: 'success' }));
             return true;
         } catch (error) {
-            console.log(error.response.data);
             const msg = error?.response?.data?.message || 'Failed to update address';
             dispatch(setMessage({ text: msg, type: 'error' }));
             return false;

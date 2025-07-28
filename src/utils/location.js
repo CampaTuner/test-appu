@@ -38,12 +38,10 @@ const getCurrentLocation = async () => {
 
           resolve(details);
         } catch (err) {
-          console.error('Reverse geocoding failed:', err);
           reject('Unable to fetch address.');
         }
       },
       (err) => {
-        console.error('Geolocation error:', err);
         reject('Unable to retrieve GPS coordinates.');
       },
       { enableHighAccuracy: true, timeout: 15000, maximumAge: 10000 }

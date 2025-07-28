@@ -9,7 +9,8 @@ import Button from '../../components/Button';
 import getCurrentLocation from '../../utils/location';
 import { setLoading, setMessage } from '../../redux/slices/uiSlice';
 import { useAuth } from '../../hooks/auth/useAuth';
-
+import { setCitizen } from '../../redux/slices/authSlice';
+import Icon from 'react-native-vector-icons/Feather';
 const UserInfoScreen = () => {
     const { citizen } = useSelector((state) => state.auth);
     const dispatch = useDispatch();
@@ -41,7 +42,7 @@ const UserInfoScreen = () => {
                 coordinates: details.coordinates,
             });
         } catch (error) {
-            console.log(error);
+           dispatch(setMessage({ type: 'eorror', text: 'Error getting location' }));
         } finally {
             dispatch(setLoading(false));
         }
@@ -57,14 +58,14 @@ const UserInfoScreen = () => {
 
         let response = await updateAddress(location)
         if (response) {
-            setLocation({
-                state: "",
-                district: "",
-                address: "",
-                city: "",
-                pincode: "",
-                coordinates: [0, 0],
-            });
+            dispatch(setCitizen({
+                citizen: {
+                    ...citizen,
+                    location: location,
+                    isLocationUpdated: true
+                },
+            }));
+            dispatch(setMessage({ type: 'success', text: 'Location updated successfully.' }));
         }
     };
 
@@ -98,24 +99,37 @@ const UserInfoScreen = () => {
                 <Text style={styles.sectionTitle}>Home Location</Text>
 
                 <KeyboardAvoidingView style={styles.inputGroup}>
-                    <Input title="State" placeholder={"Enter State"} value={location.state} onChangeText={(text) => setLocation({ ...location, state: text })} />
-                    <Input title="District" placeholder={"Enter District"} value={location.district} onChangeText={(text) => setLocation({ ...location, district: text })} />
-                    <Input title="Address" placeholder={"Enter Home Address"} value={location.address} onChangeText={(text) => setLocation({ ...location, address: text })} />
-                    <Input title="City" placeholder={"Enter City"} value={location.city} onChangeText={(text) => setLocation({ ...location, city: text })} />
-                    <Input title="Pincode" placeholder={"Enter Pincode"} value={location.pincode} onChangeText={(text) => setLocation({ ...location, pincode: text })} />
+                    <Input editable={!citizen.isLocationUpdated} title="State" placeholder={"Enter State"} value={location.state} onChangeText={(text) => setLocation({ ...location, state: text })} />
+                    <Input editable={!citizen.isLocationUpdated} title="District" placeholder={"Enter District"} value={location.district} onChangeText={(text) => setLocation({ ...location, district: text })} />
+                    <Input editable={!citizen.isLocationUpdated} title="Address" placeholder={"Enter Home Address"} value={location.address} onChangeText={(text) => setLocation({ ...location, address: text })} />
+                    <Input editable={!citizen.isLocationUpdated} title="City" placeholder={"Enter City"} value={location.city} onChangeText={(text) => setLocation({ ...location, city: text })} />
+                    <Input editable={!citizen.isLocationUpdated} title="Pincode" placeholder={"Enter Pincode"} value={location.pincode} onChangeText={(text) => setLocation({ ...location, pincode: text })} />
 
                 </KeyboardAvoidingView>
 
-                <View style={styles.buttonGroup}>
-                    {!isLocationFilled ? (
-                        <Button title="Get Current Location" handlePress={handleGetLocation} />
-                    )
-                        : (
-                            <Button title="Update Location" handlePress={handleUpdateLocation} />
-                        )
-                    }
+                {
+                    !citizen.isLocationUpdated && (
+                        <View style={styles.buttonGroup}>
 
-                </View>
+                            {!isLocationFilled ? (
+                                <Button title="Get Current Location" handlePress={handleGetLocation} />
+                            )
+                                : (
+                                    <View style={styles.btnContainer}>
+                                        <View style={styles.row}>
+                                            <Icon name="alert-triangle" size={15} color={'orange'} style={styles.icon} />
+                                            <Text style={styles.noteText}>
+                                                You can update your location only once.
+                                            </Text>
+                                        </View>
+
+                                        <Button title="Update Location" handlePress={handleUpdateLocation} />
+                                    </View>
+                                )
+                            }
+                        </View>
+                    )
+                }
             </View>
         </ScrollView>
     );
@@ -151,5 +165,21 @@ const styles = StyleSheet.create({
     buttonGroup: {
         marginTop: 20,
         gap: 12,
+    },
+    btnContainer: {
+        marginVertical: 16,
+        marginTop: 0,
+    },
+    row: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginBottom: 15,
+    },
+    icon: {
+        marginRight: 8,
+    },
+    noteText: {
+        color: 'orange',
+        fontSize: 14,
     },
 });

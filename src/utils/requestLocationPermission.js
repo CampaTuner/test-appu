@@ -13,7 +13,6 @@ const requestLocationPermission = async () => {
             return true;
         }
     } catch (err) {
-        console.error('Location permission error:', err);
         return false;
     }
 };

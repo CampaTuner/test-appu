@@ -261,13 +261,6 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.bold,
         color: 'white',
     },
-    signature: {
-        paddingTop: 25,
-        textAlign: 'center',
-        fontSize: 12,
-        color: 'white',
-        fontFamily: FONTS.medium,
-    },
     noData: {
         flex: 1 / 2,
         alignItems: "center",
@@ -288,6 +281,13 @@ const styles = StyleSheet.create({
         fontFamily: FONTS.bold,
         fontSize: 40,
         lineHeight: 50,
+    },
+    signature: {
+        paddingTop: 25,
+        textAlign: 'center',
+        fontSize: 12,
+        color: 'white',
+        fontFamily: FONTS.medium,
     }
-
+    
 });

@@ -40,7 +40,6 @@ const HomeScreen = () => {
     dispatch(setSuccessGarbages(topFive))
   }
 
-
   const fetchSuccessReports = async () => {
     dispatch(setLoading(true));
     await setTopFiveSuccessReports()
@@ -48,7 +47,9 @@ const HomeScreen = () => {
   }
 
   const onRefresh = async () => {
+    setRefreshing(true);
     await setTopFiveSuccessReports()
+    setRefreshing(false);
   }
 
 

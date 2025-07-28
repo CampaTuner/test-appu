@@ -29,8 +29,6 @@ const PasswordChange = ({ navigation, route }) => {
     const { resetPassword } = useAuth();
 
     const handleChangePassword = async () => {
-        console.log(token);
-
         if (!newPassword || !confirmPassword) {
             return dispatch(setMessage({ type: 'error', text: 'Please fill all fields' }));
         }

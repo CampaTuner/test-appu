@@ -90,8 +90,6 @@ const ReportScreen = () => {
   };
 
   const onRefresh = async () => {
-    console.log("fff");
-
     if (!locationPermission) {
       return dispatch(setMessage({ type: 'error', text: 'Location permission denied' }));
     }

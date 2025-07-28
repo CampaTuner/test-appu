@@ -7,11 +7,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import DetailsHeader from '../../components/DetailsHeader';
 
 const ContactScreen = () => {
-    const openDial = () => Linking.openURL('tel:+918888888888');
-    const openEmail = () => Linking.openURL('mailto:support@ecoshudhra.org');
+    const openDial = () => Linking.openURL('tel:+919064230170');
+    const openEmail = () => Linking.openURL('mailto:support@ecoshudhra.in');
 
     return (
-        <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <ScrollView contentContainerStyle={styles.container} showsVerticalScrollIndicator={false}>
             <DetailsHeader title="Contact Us" />
 
             <View style={styles.card}>
@@ -23,7 +23,7 @@ const ContactScreen = () => {
                 <View style={styles.contactItem}>
                     <Ionicons name="call-outline" size={22} color={COLORS.primary} />
                     <TouchableOpacity onPress={openDial}>
-                        <Text style={styles.contactText}>+91 88888 88888</Text>
+                        <Text style={styles.contactText}>+91 90642 30170</Text>
                     </TouchableOpacity>
                 </View>
 
@@ -37,12 +37,15 @@ const ContactScreen = () => {
                 <View style={styles.contactItem}>
                     <Ionicons name="location-outline" size={22} color={COLORS.primary} />
                     <Text style={styles.contactText}>
-                        Bijoygarh, Layelka Math, Baghajatin, Kolkata, West Bengal, 700032, India
+                        PGJ2+P6V, Thakurnagar - Panchpota Rd, Uttar Seethi, Kolkata, West Bengal 700124, India
                     </Text>
                 </View>
 
             </View>
-            <Text style={styles.signature}>Crafted with ❤️ in Kolkata, India</Text>
+            <View style={styles.footer}>
+                <Text style={styles.footerText}>Keep Your City Clean</Text>
+                <Text style={styles.signature}>Crafted with ❤️ in Kolkata, India</Text>
+            </View>
         </ScrollView>
     );
 };
@@ -95,6 +98,26 @@ const styles = StyleSheet.create({
         marginBottom: 20,
         alignSelf: 'center',
         opacity: 0.7,
+    },
+    footer: {
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginLeft: 20,
+        position: 'absolute',
+        bottom: 40,
+    },
+    footerText: {
+        color: '#808080',
+        fontFamily: FONTS.bold,
+        fontSize: 40,
+        lineHeight: 50,
+    },
+    signature: {
+        paddingTop: 25,
+        fontSize: 12,
+        textAlign: 'center',
+        color: 'gray',
+        fontFamily: FONTS.medium,
     }
 
 });
